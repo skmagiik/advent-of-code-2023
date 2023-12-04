@@ -33,7 +33,7 @@ fn main() {
 
 fn part1(input: &str) -> usize {
     let mut total_sum: usize = 0;
-    let lines = input.lines();
+    let lines = input.lines().collect::<Vec<&str>>();
 
     println!("{}",input);
     println!("");
@@ -42,11 +42,11 @@ fn part1(input: &str) -> usize {
     let mut newnum = Number{str_contents: "".to_owned(), length: 0, coordinates: Coordinates { x: 0, y: 0 }, symbols: Vec::new()};
     let mut appending_num = false;
 
-    let line_len = lines.clone().nth(0).expect("Should have at least 1 line").len();
+    let line_len = lines[0].len();
 
     let mut possible_gears :Vec<Gear> = Vec::new();
 
-    for (y, line) in lines.clone().enumerate(){
+    for (y, line) in lines.iter().enumerate(){
         for (x, c) in line.chars().enumerate(){            
             println!("{}, {} => {}", x, y, c);
             if  !c.is_digit(10) && c != '*' && !appending_num {
@@ -85,7 +85,7 @@ fn part1(input: &str) -> usize {
                 let max_y = if newnum.coordinates.y < line_len - 1 { y + 1} else { y };
             
                 for check_y in min_y..=max_y {
-                    for (check_x, check_char) in lines.clone().nth(check_y).expect("Should be within range")[min_x..=max_x].chars().enumerate(){
+                    for (check_x, check_char) in lines[check_y][min_x..=max_x].chars().enumerate() {
                         if !check_char.is_digit(10) && check_char == '*' {
                             println!("\nFound {} while searching around {}", check_char, newnum.str_contents);
                             let mut sym: Symbol = Symbol { char: check_char, coordinates: Coordinates { x: 0, y: check_y } };
