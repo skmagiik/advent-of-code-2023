@@ -35,8 +35,8 @@ fn part1(input: &str) -> usize {
     let mut total_sum: usize = 0;
     let lines = input.lines().collect::<Vec<&str>>();
 
-    println!("{}",input);
-    println!("");
+    // println!("{}",input);
+    // println!("");
     
     let mut nums :Vec<Number> = Vec::new();
     let mut newnum = Number{str_contents: "".to_owned(), length: 0, coordinates: Coordinates { x: 0, y: 0 }, symbols: Vec::new()};
@@ -48,7 +48,7 @@ fn part1(input: &str) -> usize {
 
     for (y, line) in lines.iter().enumerate(){
         for (x, c) in line.chars().enumerate(){            
-            println!("{}, {} => {}", x, y, c);
+            // println!("{}, {} => {}", x, y, c);
             if  !c.is_digit(10) && c != '*' && !appending_num {
                 continue;
             }
@@ -56,13 +56,13 @@ fn part1(input: &str) -> usize {
                 let mut gear_found = false;
                 for gear in &possible_gears {
                     if gear.coordinates.x == x && gear.coordinates.y == y {
-                        println!("Duplicate gear found @ {:?}", gear.coordinates);
+                        // println!("Duplicate gear found @ {:?}", gear.coordinates);
                         gear_found = true;
                         break;
                     }
                 }
                 if !gear_found {
-                    println!("Gear found for the first time");
+                    // println!("Gear found for the first time");
                     possible_gears.push(Gear{coordinates: Coordinates { x: x, y: y }, numbers: Vec::new()});
                 }
             }
@@ -87,29 +87,29 @@ fn part1(input: &str) -> usize {
                 for check_y in min_y..=max_y {
                     for (check_x, check_char) in lines[check_y][min_x..=max_x].chars().enumerate() {
                         if !check_char.is_digit(10) && check_char == '*' {
-                            println!("\nFound {} while searching around {}", check_char, newnum.str_contents);
+                            // println!("\nFound {} while searching around {}", check_char, newnum.str_contents);
                             let mut sym: Symbol = Symbol { char: check_char, coordinates: Coordinates { x: 0, y: check_y } };
                             if newnum.coordinates.x != 0 {
                                 sym.coordinates.x = newnum.coordinates.x + check_x -1;
                             }else{
                                 sym.coordinates.x = newnum.coordinates.x + check_x;
                             }
-                            println!("{:?}", sym);
+                            // println!("{:?}", sym);
                             newnum.symbols.push(sym.clone());
                             if check_char == '*' {
                                 let mut gear_found = false;
                                 for gear in &mut possible_gears {
                                     if gear.coordinates.x == sym.coordinates.x && gear.coordinates.y == sym.coordinates.y {
-                                        println!("Number touching existing gear @ {:?}", gear.coordinates);
-                                        println!("{:?}", gear);
+                                        // println!("Number touching existing gear @ {:?}", gear.coordinates);
+                                        // println!("{:?}", gear);
                                         gear.numbers.push(newnum.str_contents.parse::<usize>().expect("this should be a valid number"));
-                                        println!("{:?}", gear);
+                                        // println!("{:?}", gear);
                                         gear_found = true;
                                         break;
                                     }
                                 }
                                 if !gear_found {
-                                    println!("Adding possible gear");
+                                    // println!("Adding possible gear");
                                     possible_gears.push(Gear{coordinates: Coordinates { x: sym.coordinates.x, y: sym.coordinates.y }, numbers: vec![newnum.str_contents.parse::<usize>().expect("this should be a valid number")]});
                                 }
                             }
@@ -136,15 +136,15 @@ fn part1(input: &str) -> usize {
         }
     }
 
-    println!("\n\nPossible Gears:");
-    for gear in &possible_gears {
-        println!("{:?}", gear);
-    }
+    // println!("\n\nPossible Gears:");
+    // for gear in &possible_gears {
+    //     println!("{:?}", gear);
+    // }
     
-    println!("\n\nValid Gears:");
+    // println!("\n\nValid Gears:");
     for gear in &possible_gears {
         if gear.numbers.len() == 2{
-            println!("{:?}", gear);
+            // println!("{:?}", gear);
             let gear_ratio = gear.numbers[0] * gear.numbers[1];
             total_sum += gear_ratio;
         }
