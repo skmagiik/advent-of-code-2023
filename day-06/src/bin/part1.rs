@@ -32,14 +32,17 @@ fn parse_params(input: &str) -> Vec<usize>{
 
 fn calculate_ways_to_win(time: usize, dist: usize) -> usize {
     let mut ways_to_win = 0;
-    for ms in 1..time{
+    for ms in 1..time/2+1{
         let travel_dist = ms*(time-ms);
         if travel_dist > dist {
-            println!("hold for {ms}ms");
-            println!("traveled {travel_dist} mm");
-            println!("won the race!");
-            ways_to_win += 1;
+            // println!("hold for {ms}ms");
+            // println!("traveled {travel_dist} mm");
+            // println!("won the race!");
+            ways_to_win += 2;
         }
+    }
+    if time % 2 == 0 {
+        ways_to_win -= 1;
     }
     ways_to_win
 }
@@ -50,14 +53,12 @@ fn part1(input: &str) -> usize {
 
     let time_params = parse_params(lines[0]);
     let dist_params = parse_params(lines[1]);
-    println!("time: {:?}", time_params);
-    println!("distance: {:?}", dist_params);
 
     let mut output = 1;
     for race_index in 0..time_params.len(){
-        println!("Race {}: {}ms {}mm", race_index+1, time_params[race_index], dist_params[race_index]);
+        // println!("Race {}: {}ms {}mm", race_index+1, time_params[race_index], dist_params[race_index]);
         let ways_to_win = calculate_ways_to_win(time_params[race_index], dist_params[race_index]);
-        println!("Ways to win: {ways_to_win}");
+        // println!("Ways to win: {ways_to_win}\n");
         output *= ways_to_win;
     } 
     
